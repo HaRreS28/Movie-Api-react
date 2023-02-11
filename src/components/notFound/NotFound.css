@@ -1,0 +1,9 @@
+.not-found-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 3rem;
+    color: gold;
+    text-align: center;
+}

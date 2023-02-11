@@ -4,7 +4,7 @@ import React from 'react'
 
 const Layout = () => {
   return (
-    <main>
+    <main style={{flex:'1'}}>
         <Outlet/>
     </main>
   )

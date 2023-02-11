@@ -8,6 +8,8 @@ import Header from './components/header/Header';
 import Trailer from './components/trailer/Trailer';
 import Reviews from './components/reviews/Reviews';
 import NotFound from './components/notFound/NotFound';
+import Footer from './components/footer/Footer';
+import WatchList from './components/watchlist/WatchList';
 
 function App() {
 
@@ -51,10 +53,12 @@ const getMovieData = async (movieId) => {
           <Route path='/' element={<Home movies={movies}/>}/>
           <Route path='/Trailer/:ytTrailerId' element={<Trailer/>}/>
           <Route path='/Reviews/:movieId' element={<Reviews getMovieData={getMovieData} movie={movie}
-           reviews={reviews} setReviews={setReviews}/>}></Route>
+           reviews={reviews} setReviews={setReviews}/>}/>
+           <Route path='/watchlist' element={<WatchList movies={movies}/>}/>
            <Route path='*' element={<NotFound/>}/>
         </Route>
       </Routes>
+      <Footer/>
     </div>
   );
 }
