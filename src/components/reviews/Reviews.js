@@ -10,6 +10,11 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
     const revText = useRef();
     const params = useParams();
     const movieId = params.movieId;
+
+    useEffect(()=>{
+        getMovieData(movieId);
+    },[])
+
     const addReview = async (e)=>{
         e.preventDefault();
         const rev = revText.current;
@@ -28,24 +33,24 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
         }
     }
 
-    useEffect(()=>{
-        getMovieData(movieId);
-    },[])
+   
 
   return (
     <Container>
         <Row>
             <Col><h3>Reviews</h3></Col>
         </Row>
-        <Row className='mt-2'>
+        <Row className="mt-2">
             <Col>
-                <img src='movie?.poster' alt=''/>
+                <img src={movie?.poster} alt=''/>
             </Col>
             <Col>
             {
                 <>
                     <Row>
+                        <Col>
                         <ReviewForm handleSubmit={addReview} revText={revText} labelText = "Write a Review?"/>
+                        </Col>
                     </Row>
                     <Row>
                         <Col>
@@ -59,17 +64,22 @@ const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
                     return(
                         <>
                             <Row>
-                                <Col>{r.body}</Col>
+                                <Col>{e.body}</Col>
                             </Row>
                             <Row>
-                        <Col>
-                            <hr/>
-                        </Col>
-                    </Row>
+                                <Col>
+                                    <hr/>
+                                </Col>
+                             </Row>
                         </>
                     )
                 })
             }
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <hr/>
             </Col>
         </Row>
     </Container>
