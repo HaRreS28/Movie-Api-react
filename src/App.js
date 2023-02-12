@@ -1,6 +1,6 @@
 import './App.css';
 import api from './api/axiosConfig';
-import {useState,useEffect} from 'react';
+import {useState,useEffect,createContext} from 'react';
 import Layout from './components/Layout';
 import {Routes,Route,useNavigate}  from 'react-router-dom';
 import Home from './components/home/Home';
@@ -16,6 +16,7 @@ function App() {
   const [movies,setMovies] = useState([]);
   const [movie,setMovie] = useState();
   const [reviews,setReviews] = useState([]);
+  const movieContext = createContext();
   const navigate = useNavigate();
 
   const getMovies = async () =>{
@@ -42,11 +43,12 @@ const getMovieData = async (movieId) => {
 }
 
   useEffect(()=>{
-    getMovies();
+    getMovies()
   },[])
 
   return (
-    <div className="App">
+    <movieContext.Provider value={movies}>
+    <div className="App" id='app'>
       <Header/>
       <Routes>
         <Route path='/' element={<Layout/>}>
@@ -54,12 +56,14 @@ const getMovieData = async (movieId) => {
           <Route path='/Trailer/:ytTrailerId' element={<Trailer/>}/>
           <Route path='/Reviews/:movieId' element={<Reviews getMovieData={getMovieData} movie={movie}
            reviews={reviews} setReviews={setReviews}/>}/>
-           <Route path='/watchlist' element={<WatchList movies={movies}/>}/>
+           {console.log(movies)}
+           <Route path='/watchlist' element={<WatchList movieContext={movieContext}/>}/>
            <Route path='*' element={<NotFound/>}/>
         </Route>
       </Routes>
       <Footer/>
     </div>
+    </movieContext.Provider>
   );
 }
 

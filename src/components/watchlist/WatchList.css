@@ -1,0 +1,29 @@
+.item{
+    display: flex;
+    justify-content:space-between;
+    margin: 35px 0;
+    border-bottom: 1px solid gray;
+    padding-bottom: 35px;
+    width: 80%;
+}
+
+.item-container{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    justify-content: center;
+}
+
+.refresh{
+    font-size: 2rem;
+    text-align: center;
+}
+
+@media screen and (max-width:800px) {
+    .item{
+        flex-direction:column;
+        align-items: center;
+        gap: 15px;
+    }
+}
