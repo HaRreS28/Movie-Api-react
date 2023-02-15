@@ -5,4 +5,4 @@ RUN npm ci
 RUN npm run build
 ENV NODE_END production
 EXPOSE 3000
-CMD ["npx","serve","build"] //zjebane
+CMD ["npx","serve","build"]
