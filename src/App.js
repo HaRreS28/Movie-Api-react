@@ -14,8 +14,6 @@ import WatchList from './components/watchlist/WatchList';
 function App() {
 
   const [movies,setMovies] = useState([]);
-  const [movie,setMovie] = useState();
-  const [reviews,setReviews] = useState([]);
   const movieContext = createContext();
   const navigate = useNavigate();
 
@@ -27,20 +25,6 @@ function App() {
       console.log(err)
     }
   }
-
-const getMovieData = async (movieId) => {
-  try{
-    const response = await api.get(`/api/v1/movies/${movieId}`)
-    const singleMovie = response.data;
-    setMovie(singleMovie)
-    console.log(singleMovie)
-    setReviews(singleMovie.reviewIds)
-  }
-  catch(error){
-    console.log(error)
-    navigate(`/error`)
-  }
-}
 
   useEffect(()=>{
     getMovies()
@@ -54,9 +38,7 @@ const getMovieData = async (movieId) => {
         <Route path='/' element={<Layout/>}>
           <Route path='/' element={<Home movies={movies}/>}/>
           <Route path='/Trailer/:ytTrailerId' element={<Trailer/>}/>
-          <Route path='/Reviews/:movieId' element={<Reviews getMovieData={getMovieData} movie={movie}
-           reviews={reviews} setReviews={setReviews}/>}/>
-           {console.log(movies)}
+          <Route path='/Reviews/:movieId' element={<Reviews/>}/>
            <Route path='/watchlist' element={<WatchList movieContext={movieContext}/>}/>
            <Route path='*' element={<NotFound/>}/>
         </Route>

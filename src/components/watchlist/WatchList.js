@@ -2,7 +2,7 @@ import React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useState,useEffect,useContext} from 'react';
 import { ThreeDots } from 'react-loader-spinner'
-import {Link} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAnglesDown } from '@fortawesome/free-solid-svg-icons'
@@ -13,10 +13,15 @@ const WatchList = ({movieContext}) => {
   const [isMore,setIsMore]=useState(true)
   const [page,setPage] = useState(0)
   const movies = useContext(movieContext)
+  const navigate = useNavigate();
 
   useEffect(()=>{
-    fetchData()
+   fetchData()
   },[])
+
+  function reviews(id){
+    navigate(`/Reviews/${id}`)
+}
   
   function fetchData(){
     if(movies.length!=0){
@@ -35,16 +40,20 @@ const WatchList = ({movieContext}) => {
   }
 
   return (
-    <InfiniteScroll getScrollParent={()=>document.getElementById('app')} useWindow={true} 
+    <InfiniteScroll 
     dataLength={items.length}
     next={fetchData}
     hasMore={isMore}
-    loader={<div style={{display:'flex',justifyContent:'center'}}><ThreeDots
+    loader={
+    <div style={{display:'flex',justifyContent:'center'}}>
+      <ThreeDots
       height="80"
       width="80"
       radius="9"
       color="white"
-    /></div>}
+    />
+    </div>
+    }
     refreshFunction={fetchData}
     pullDownToRefresh
   pullDownToRefreshThreshold={1}
@@ -58,9 +67,6 @@ const WatchList = ({movieContext}) => {
     /></div>:  <b>Yay! You have seen it all</b>}
       </p>
     }
-    // refreshFunction={fetchData}
-    // pullDownToRefresh
-    // pullDownToRefreshThreshold={0}
    >
     {items.map(item=>{
       return(
@@ -71,10 +77,12 @@ const WatchList = ({movieContext}) => {
             </div>
             <div className='movie-title'>
               <h4>{item.title}</h4>
+              <Button variant='info' onClick={()=>reviews(item.imdbId)}>Reviews</Button>
             </div>
           </div>
         </div>)})}
-        {(isMore &&movies.length!==0) &&<div className='refresh'><FontAwesomeIcon icon={faAnglesDown}/></div>}
+        {(isMore &&movies.length!==0) &&<div className='refresh'><FontAwesomeIcon icon={faAnglesDown} 
+        style={{cursor:'pointer'}}/></div>}
   </InfiniteScroll>
   )
 }

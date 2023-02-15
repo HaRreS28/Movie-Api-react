@@ -30,6 +30,7 @@ const Footer = () => {
         }
         catch(error){
           setError('Something gone wrong')
+          console.log(error.message)
         }
         }
     }

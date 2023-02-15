@@ -1,19 +1,38 @@
 import React from 'react'
-import { useEffect,useRef } from 'react'
+import { useEffect,useRef,useState} from 'react'
 import api from '../../api/axiosConfig'
+import {Link,useNavigate} from 'react-router-dom'
 import {useParams} from 'react-router-dom'
 import {Container,Row,Col} from 'react-bootstrap'
 import ReviewForm from '../reviewForm/ReviewForm'
 
-const Reviews = ({getMovieData,movie,reviews,setReviews}) => {
+const Reviews = () => {
 
     const revText = useRef();
     const params = useParams();
     const movieId = params.movieId;
+    const [movie,setMovie] = useState();
+    const [reviews,setReviews] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         getMovieData(movieId);
     },[])
+
+
+    const getMovieData = async (movieId) => {
+        try{
+          const response = await api.get(`/api/v1/movies/${movieId}`)
+          const singleMovie = response.data;
+          setMovie(singleMovie)
+          console.log(singleMovie)
+          setReviews(singleMovie.reviewIds)
+        }
+        catch(error){
+          console.log(error)
+          navigate(`/error`)
+        }
+      }
 
     const addReview = async (e)=>{
         e.preventDefault();

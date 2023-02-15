@@ -20,6 +20,15 @@
     text-align: center;
 }
 
+.movie-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    text-align: center;
+    gap:15px;
+}
+
 @media screen and (max-width:800px) {
     .item{
         flex-direction:column;
