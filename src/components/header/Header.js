@@ -8,6 +8,10 @@ const Header = () => {
     window.location.assign("http://localhost:3000/login");
   };
 
+  const handleSignUp = () => {
+    window.location.assign("http://localhost:3000/register");
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container fluid>
@@ -39,7 +43,7 @@ const Header = () => {
           <Button
             variant="outline-info"
             className="me-2"
-            onClick={handleSignIn}
+            onClick={handleSignUp}
           >
             Sign up
           </Button>

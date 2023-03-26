@@ -2,10 +2,9 @@ import { useState } from "react";
 import { FaSignInAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import "./Login.css";
+import { RxCross2 } from "react-icons/rx";
 
-function Login() {
-  const [isNotRegistered, setIsNotRegistered] = useState(false);
-
+function Login({ isRegister }) {
   const [inputs, setInputs] = useState({
     password: "",
     email: "",
@@ -64,14 +63,38 @@ function Login() {
 
   const handleRegistration = (event) => {
     event.preventDefault();
-    setIsNotRegistered(true);
+    window.location.assign("http://localhost:3000/register");
   };
 
   return (
     <div className="login">
       <main className="login-card">
         <header className="login-header">
-          <p>Welcome</p>
+          <div className="login-header-welcomer">
+            <p className="login-header-paragraph">
+              {isRegister
+                ? "Sign up, and join our community!"
+                : "Welcome back!"}
+            </p>
+            <IconContext.Provider
+              value={{
+                color: "#CC0066",
+                size: "35px",
+              }}
+            >
+              <RxCross2
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  window.location.assign("http://localhost:3000");
+                }}
+              />
+            </IconContext.Provider>
+          </div>
+          {/* {isRegister && (
+            <p className="login-header-paragraph login-header-create-account">
+              Create a new account, do not hesitate and join best community
+            </p>
+          )} */}
         </header>
         <form className="login-form" onSubmit={handleSubmit}>
           <label htmlFor="email" className="login-form-label">
@@ -104,12 +127,14 @@ function Login() {
           />
         </form>
         <footer className="login-footer">
-          <p className="login-footer-register">
-            Do not have account ?
-            <a href="#" onClick={handleRegistration}>
-              Sign up
-            </a>
-          </p>
+          {!isRegister && (
+            <p className="login-footer-register">
+              Do not have account?
+              <a href="/register" onClick={handleRegistration}>
+                Sign up
+              </a>
+            </p>
+          )}
           <button onClick={handleClick} className="login-form-footer-button">
             <IconContext.Provider
               value={{

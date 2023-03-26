@@ -34,26 +34,34 @@ function App() {
 
   return (
     <movieContext.Provider value={movies}>
-      {position !== "/login" ? (
-        <div className="App" id="app">
-          <Header />
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" element={<Home movies={movies} />} />
-              <Route path="/Trailer/:ytTrailerId" element={<Trailer />} />
-              <Route path="/Reviews/:movieId" element={<Reviews />} />
-              <Route
-                path="/watchlist"
-                element={<WatchList movieContext={movieContext} />}
-              />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-          <Footer />
-        </div>
-      ) : (
-        <Login />
-      )}
+      <div>
+        {(() => {
+          if (position === "/login") {
+            return <Login isRegister={false} />;
+          } else if (position === "/register") {
+            return <Login isRegister={true} />;
+          } else {
+            return (
+              <div className="App" id="app">
+                <Header />
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route path="/" element={<Home movies={movies} />} />
+                    <Route path="/Trailer/:ytTrailerId" element={<Trailer />} />
+                    <Route path="/Reviews/:movieId" element={<Reviews />} />
+                    <Route
+                      path="/watchlist"
+                      element={<WatchList movieContext={movieContext} />}
+                    />
+                    <Route path="*" element={<NotFound />} />
+                  </Route>
+                </Routes>
+                <Footer />
+              </div>
+            );
+          }
+        })()}
+      </div>
     </movieContext.Provider>
   );
 }

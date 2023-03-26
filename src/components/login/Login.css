@@ -99,3 +99,22 @@ body {
 .login-form-warning {
     color: firebrick;
 }
+
+.login-header-paragraph {
+    max-width: 50%;
+}
+
+
+.login-header-paragraph.login-header-create-account {
+    max-width: 45%;
+    font-size: 14px;
+    font-weight: bold;
+    color: lightslategrey;
+}
+
+
+.login-header-welcomer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
