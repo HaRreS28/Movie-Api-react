@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideoSlash } from "@fortawesome/free-solid-svg-icons";
 import { Button, Container, Nav, Navbar, NavLink } from "react-bootstrap";
+import AuthService from "../../api/authService";
 
 const Header = () => {
   const handleSignIn = () => {
@@ -10,6 +11,11 @@ const Header = () => {
 
   const handleSignUp = () => {
     window.location.assign("http://localhost:3000/register");
+  };
+
+  const handleSignOut = () => {
+    AuthService.logout();
+    window.location.assign("http://localhost:3000");
   };
 
   return (
@@ -33,20 +39,32 @@ const Header = () => {
               Watch List
             </NavLink>
           </Nav>
-          <Button
-            variant="outline-info"
-            className="me-2"
-            onClick={handleSignIn}
-          >
-            Sign in
-          </Button>
-          <Button
-            variant="outline-info"
-            className="me-2"
-            onClick={handleSignUp}
-          >
-            Sign up
-          </Button>
+          {AuthService.getCurrentUser() ? (
+            <Button
+              variant="outline-info"
+              className="me-2"
+              onClick={handleSignOut}
+            >
+              Sign out
+            </Button>
+          ) : (
+            <>
+              <Button
+                variant="outline-info"
+                className="me-2"
+                onClick={handleSignIn}
+              >
+                Sign in
+              </Button>
+              <Button
+                variant="outline-info"
+                className="me-2"
+                onClick={handleSignUp}
+              >
+                Sign up
+              </Button>
+            </>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

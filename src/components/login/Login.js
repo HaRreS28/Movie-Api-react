@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaSignInAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
+import AuthService from "../../api/authService";
 
 function Login({ isRegister }) {
   const [inputs, setInputs] = useState({
     password: "",
     email: "",
   });
+
+  useEffect(() => {
+    if (AuthService.getCurrentUser()) {
+      window.location.assign("http://localhost:3000");
+    }
+  }, []);
 
   const [warning, setWarning] = useState({
     password: "",
@@ -20,6 +27,9 @@ function Login({ isRegister }) {
     email: false,
   });
 
+  const [wrongCredentials, setWrongCredentials] = useState(false);
+  const [alreadyExist, setAlreadyExist] = useState(false);
+
   function handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
@@ -27,11 +37,14 @@ function Login({ isRegister }) {
   }
 
   function handleClick(event) {
+    console.log("WTTF");
     setIsWrong({
       password: false,
       email: false,
     });
 
+    setAlreadyExist(false);
+    setWrongCredentials(false);
     event.preventDefault();
     if (inputs.password.length < 8) {
       setWarning((prev) => ({
@@ -53,7 +66,26 @@ function Login({ isRegister }) {
         email: true,
       }));
     } else if (!isWrong.email && !isWrong.password) {
-      window.location.assign("http://localhost:3000");
+      if (isRegister) {
+        AuthService.register(inputs.email, inputs.password)
+          .then(() => {
+            window.location.assign("http://localhost:3000");
+          })
+          .catch((er) => {
+            setAlreadyExist(true);
+            console.log(er);
+          });
+      } else {
+        console.log("WTTF inside login");
+        AuthService.login(inputs.email, inputs.password)
+          .then((data) => {
+            window.location.assign("http://localhost:3000");
+          })
+          .catch((er) => {
+            setWrongCredentials(true);
+            console.log(er);
+          });
+      }
     }
   }
 
@@ -76,7 +108,7 @@ function Login({ isRegister }) {
                 ? "Sign up, and join our community!"
                 : "Welcome back!"}
             </p>
-            <IconContext.Provider
+            {/* <IconContext.Provider
               value={{
                 color: "#CC0066",
                 size: "35px",
@@ -88,7 +120,7 @@ function Login({ isRegister }) {
                   window.location.assign("http://localhost:3000");
                 }}
               />
-            </IconContext.Provider>
+            </IconContext.Provider> */}
           </div>
           {/* {isRegister && (
             <p className="login-header-paragraph login-header-create-account">
@@ -125,6 +157,12 @@ function Login({ isRegister }) {
             value={inputs.password || ""}
             onChange={handleChange}
           />
+          <p className="login-form-warning">
+            {wrongCredentials ? "Wrong credentials" : ""}
+          </p>
+          <p className="login-form-warning">
+            {alreadyExist ? "User already exists" : ""}
+          </p>
         </form>
         <footer className="login-footer">
           {!isRegister && (
