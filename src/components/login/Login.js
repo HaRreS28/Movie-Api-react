@@ -4,6 +4,7 @@ import { IconContext } from "react-icons";
 import "./Login.css";
 import { RxCross2 } from "react-icons/rx";
 import AuthService from "../../api/authService";
+import url from "../../api/urlConfig";
 
 function Login({ isRegister }) {
   const [inputs, setInputs] = useState({
@@ -13,7 +14,7 @@ function Login({ isRegister }) {
 
   useEffect(() => {
     if (AuthService.getCurrentUser()) {
-      window.location.assign("http://localhost:3000");
+      window.location.assign(url);
     }
   }, []);
 
@@ -69,7 +70,7 @@ function Login({ isRegister }) {
       if (isRegister) {
         AuthService.register(inputs.email, inputs.password)
           .then((data) => {
-            window.location.assign("http://localhost:3000");
+            window.location.assign(url);
           })
           .catch((er) => {
             setAlreadyExist(true);
@@ -79,7 +80,7 @@ function Login({ isRegister }) {
         console.log("WTTF inside login");
         AuthService.login(inputs.email, inputs.password)
           .then((data) => {
-            window.location.assign("http://localhost:3000");
+            window.location.assign(url);
           })
           .catch((er) => {
             setWrongCredentials(true);
@@ -95,7 +96,7 @@ function Login({ isRegister }) {
 
   const handleRegistration = (event) => {
     event.preventDefault();
-    window.location.assign("http://localhost:3000/register");
+    window.location.assign(url + "/register");
   };
 
   return (

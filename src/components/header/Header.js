@@ -3,19 +3,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVideoSlash } from "@fortawesome/free-solid-svg-icons";
 import { Button, Container, Nav, Navbar, NavLink } from "react-bootstrap";
 import AuthService from "../../api/authService";
+import url from "../../api/urlConfig";
 
 const Header = () => {
   const handleSignIn = () => {
-    window.location.assign("http://localhost:3000/login");
+    window.location.assign(url + "/login");
   };
 
   const handleSignUp = () => {
-    window.location.assign("http://localhost:3000/register");
+    window.location.assign(url + "/register");
   };
 
   const handleSignOut = () => {
     AuthService.logout();
-    window.location.assign("http://localhost:3000");
+    window.location.assign(url);
   };
 
   return (
