@@ -68,7 +68,7 @@ function Login({ isRegister }) {
     } else if (!isWrong.email && !isWrong.password) {
       if (isRegister) {
         AuthService.register(inputs.email, inputs.password)
-          .then(() => {
+          .then((data) => {
             window.location.assign("http://localhost:3000");
           })
           .catch((er) => {

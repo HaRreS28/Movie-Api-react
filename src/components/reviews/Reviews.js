@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import ReviewForm from "../reviewForm/ReviewForm";
 import authHeader from "../../api/authHeader";
+import authService from "../../api/authService";
 
 const Reviews = () => {
   const revText = useRef();
@@ -43,7 +44,10 @@ const Reviews = () => {
         { headers: authHeader() }
       );
 
-      const updatedReviews = [...reviews, { body: rev.value }];
+      const updatedReviews = [
+        ...reviews,
+        { author: authService.getCurrentUser().email, body: rev.value },
+      ];
 
       rev.value = "";
 
@@ -90,7 +94,17 @@ const Reviews = () => {
                   <Col>
                     {
                       <div className="review-body">
-                        <p style={{ color: "#cd6155" }}>{e.author}</p>
+                        <p
+                          style={{
+                            color:
+                              authService.getCurrentUser() &&
+                              e.author == authService.getCurrentUser().email
+                                ? "#ffe333"
+                                : "#cd6155",
+                          }}
+                        >
+                          {e.author}
+                        </p>
                         <p>{e.body}</p>
                       </div>
                     }

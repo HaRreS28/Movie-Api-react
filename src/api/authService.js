@@ -23,7 +23,7 @@ class AuthService {
 
   async register(email, password) {
     if (!localStorage.getItem("user")) {
-      const response = axios.post(API_URL + "signup", {
+      const response = await axios.post(API_URL + "signup", {
         email: email,
         password: password,
       });
